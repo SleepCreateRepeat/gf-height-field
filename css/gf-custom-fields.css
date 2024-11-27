@@ -1,0 +1,57 @@
+.ginput_container_height .height-unit-button {
+}
+
+.ginput_container_height .height-unit-toggle,
+.ginput_container_weight .weight-unit-toggle {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.ginput_container_height .height-imperial,
+.ginput_container_weight .weight-imperial {
+    gap: 12px !important;
+}
+
+.height-field-group,
+.weight-field-group {
+    position: relative;
+    display: inline-block;
+    margin-bottom: 10px;
+    flex-grow: 1;
+}
+
+.ginput_container_height .height-metric,
+.ginput_container_weight .weight-metric,
+.ginput_container_weight .weight-lbs {
+    width: 100%;
+    display: block;
+}
+
+.ginput_container_height .height-metric .height-field-group,
+.ginput_container_weight .weight-lbs .weight-field-group,
+.ginput_container_weight .weight-metric .weight-field-group {
+    width: 100% !important;
+    display: block !important;
+}
+
+.height-field-group input,
+.weight-field-group input {
+    padding-right: 30px; /* Space for the label inside the field */
+    padding-left: 10px; /* Add some padding on the left for the text */
+    text-align: left; /* Align text to the left */
+    box-sizing: border-box;
+}
+
+.height-label,
+.weight-label {
+    position: absolute;
+    right: 10px; /* Align inside the field */
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 14px;
+    color: #666;
+    pointer-events: none; /* Prevent interaction with the label */
+}
+
