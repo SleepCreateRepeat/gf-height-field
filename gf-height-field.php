@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Gravity Forms Custom Fields
  * Description: Adds custom Height and Weight fields to Gravity Forms with unit toggling and conversion.
- * Version: 4.0
+ * Version: 4.0.1
  * Author: sleep. create. repeat.
  */
 
@@ -235,20 +235,13 @@ class GF_Field_Weight extends GF_Field {
                     function updateWeightFields(baseKg, container, activeInput) {
                         if (isNaN(baseKg) || baseKg <= 0) return;
 
-                        // Calculate total pounds and round to prevent floating-point errors
                         const lbs = baseKg * 2.20462;
                         const totalLbs = Math.round(lbs);
+                        const st = Math.floor(totalLbs / 14);
+                        const remLbs = totalLbs - st * 14;
 
-                        // Calculate stones (ST) and remaining pounds (LBS)
-                        const st = Math.floor(totalLbs / 14); // Full stones
-                        const remLbs = totalLbs - st * 14; // Remaining pounds
-
-                        // Debugging to confirm correct calculations
-                        console.log(`Base KG: ${baseKg}, Total LBS: ${totalLbs}, Stones: ${st}, Remaining LBS: ${remLbs}`);
-
-                        // Update fields
                         if (!activeInput.hasClass('metric-value')) {
-                            const roundedKg = Math.round(baseKg); // Round to nearest KG
+                            const roundedKg = Math.round(baseKg);
                             container.find('.metric-value').val(roundedKg);
                         }
 
@@ -284,14 +277,13 @@ class GF_Field_Weight extends GF_Field {
                                 const stVal = parseFloat(container.find('.imperial-st').val()) || 0;
                                 const lbsVal = parseFloat(container.find('.imperial-lbs').val()) || 0;
 
-                                // Convert ST/LBS to KG
                                 baseKg = (stVal * 14 + lbsVal) / 2.20462;
                             }
 
                             if (!isNaN(baseKg) && baseKg > 0) {
                                 updateWeightFields(baseKg, container, activeInput);
                             }
-                        }, 300); // Debounce delay
+                        }, 300);
                     });
 
                     jQuery('.weight-unit-button').on('click', function() {
@@ -305,7 +297,6 @@ class GF_Field_Weight extends GF_Field {
                     });
                 });
             })(jQuery);
-
 		</script>
 		<?php
 		return ob_get_clean();
@@ -315,11 +306,13 @@ class GF_Field_Weight extends GF_Field {
 // Register the Weight field.
 GF_Fields::register( new GF_Field_Weight() );
 
-// Enqueue CSS for both fields.
+/**
+ * Enqueue CSS for all fields
+ */
 add_action( 'wp_enqueue_scripts', 'gf_custom_fields_enqueue_styles' );
 function gf_custom_fields_enqueue_styles() {
 	if ( is_admin() ) {
-		return; // Only enqueue styles on the frontend.
+		return;
 	}
 
 	wp_enqueue_style(
